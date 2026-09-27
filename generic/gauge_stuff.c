@@ -538,6 +538,7 @@ int iloop, ln, k, j;
 int dirs[MAX_LENGTH], length;
 int path_dir[MAX_LENGTH], path_length;
 su3_matrix tmat1, *tempmat1;
+su3_matrix *links;
 int fsubl;
 #ifdef ANISOTROPY
 int is_temporal; /* to decide what kind of staple we have:
@@ -551,6 +552,10 @@ int is_temporal; /* to decide what kind of staple we have:
    printf("dsdu_qhb_subl: Can't malloc temporary\n");
    terminate(1);
  }
+
+ /* The links are not changed while the staple is computed, so copy them
+    once here instead of once per path product in path_prod_subl */
+ links = create_G_from_site();
 
     FORSOMESUBLATTICE_OMP(i,st,subl,default(shared)) {
 	clear_su3mat(&(st->staple));
@@ -598,7 +603,8 @@ int is_temporal; /* to decide what kind of staple we have:
 		    path_dir[path_length-1-j] =
 			OPP_DIR(dirs[(k+j+1)%length]);
 		}
-		path_prod_subl(path_dir, path_length, fsubl, tempmat1);
+		path_prod_subl_field(path_dir, path_length, fsubl,
+				     tempmat1, links);
 
 		/* We took the path in the other direction from our old
 		   convention in order to get it to end up "at our site".
@@ -628,6 +634,7 @@ int is_temporal; /* to decide what kind of staple we have:
 	    beta[1], &(st->staple) );
     }
 #endif
+    destroy_G(links);
     special_free(tempmat1);
     g_sync();
 

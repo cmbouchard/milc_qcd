@@ -425,6 +425,8 @@ void path_product_fields( su3_matrix *Src, const int *dir,
 			  const int length, su3_matrix *tempmat1);
 void path_prod_subl(const int *dir, const int length, const int subl,
 		    su3_matrix *tempmat1);
+void path_prod_subl_field(const int *dir, const int length, const int subl,
+			  su3_matrix *tempmat1, su3_matrix *links);
 
 /* phases.c */
 int decode_phase(const char *label);
