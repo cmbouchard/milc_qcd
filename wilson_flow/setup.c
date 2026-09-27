@@ -139,8 +139,10 @@ readin(int prompt)
         printf("set staple to symanzik\n");
       }
       else if( strcmp("zeuthen", par_buf.flow_description) == 0 ) {
-        par_buf.stapleflag = ZEUTHEN;
-        printf("set staple to zeuthen\n");
+        /* zeuthen_correction in staple.c is an empty stub, so this would
+           silently run the Symanzik flow */
+        printf("ERROR: Zeuthen flow is not implemented (zeuthen_correction is a stub); use 'wilson' or 'symanzik'\n");
+        terminate(1);
       }
       else {
         printf("Error: flow_description %s is invalid\n",
