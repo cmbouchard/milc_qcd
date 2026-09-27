@@ -1,0 +1,9 @@
+# Build products and local test output
+*.o
+su3_ora_symzk1
+build.log
+test_run*.out
+.lastmake*
+localmake
+# Rebuilt ../libraries/*.a are ignored by the top-level .gitignore (*.a);
+# a subdirectory .gitignore cannot match paths outside its own directory.
