@@ -317,6 +317,17 @@ void setup_layout(){
   int const *geom = NULL;
 #endif
 
+  /* The 32 sublattices are labelled by (x%2,y%2,z%2,t%2) and the parity of
+     x/2+y/2+z/2+t/2.  Only if every extent is a multiple of 4 is this
+     labelling consistent across the periodic boundaries.  Otherwise the
+     neighbouring-sublattice table (neighsubl) is wrong at the boundary and
+     links updated simultaneously appear in each other's staples. */
+  if(nx%4 != 0 || ny%4 != 0 || nz%4 != 0 || nt%4 != 0){
+    node0_printf("setup_layout: 32-sublattice layout requires nx, ny, nz, nt divisible by 4; got %d %d %d %d\n",
+		 nx, ny, nz, nt);
+    terminate(1);
+  }
+
   if(k == 0)
     printf("LAYOUT = Hypercubes, options = ");
 
