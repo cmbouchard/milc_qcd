@@ -1,0 +1,27 @@
+# Build products and local test output
+*.o
+/wilson_flow
+/wilson_flow_a
+/wilson_flow_adpt
+/wilson_flow_adpt_a
+/wilson_flow_adpt_bs
+/wilson_flow_adpt_bs_a
+/wilson_flow_adpt_cf3
+/wilson_flow_adpt_cf3_a
+/wilson_flow_bbb
+/wilson_flow_bbb_a
+/wilson_flow_cf3
+/wilson_flow_cf3_a
+/wilson_flow_ck
+/wilson_flow_ck_a
+/wilson_flow_rkmk3
+/wilson_flow_rkmk3_a
+/wilson_flow_rkmk4
+/wilson_flow_rkmk4_a
+/wilson_flow_rkmk5
+/wilson_flow_rkmk5_a
+/wilson_flow_rkmk8
+/wilson_flow_rkmk8_a
+build*.log
+.lastmake*
+localmake
