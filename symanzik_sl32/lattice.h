@@ -79,6 +79,7 @@ EXTERN	Real beta[2],u0;
 EXTERN  int n_dyn_masses; // number of dynamical masses (zero here)
 EXTERN  int dyn_flavors[MAX_DYN_MASSES]; 
 EXTERN	Real epsilon;
+EXTERN	int phases_in; /* for the QUDA interface: always OFF, pure-gauge links carry no KS phases */
 EXTERN	char startfile[MAXFILENAME],savefile[MAXFILENAME];
 EXTERN  double g_ssplaq, g_stplaq;
 EXTERN  double_complex linktrsum;

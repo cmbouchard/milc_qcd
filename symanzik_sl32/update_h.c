@@ -10,5 +10,10 @@
 
 void update_h(Real eps) {
     /* gauge field force */
+#ifdef USE_GF_GPU
+    /* QUDA force; always acts on the site links and site mom */
+    imp_gauge_force_gpu(eps,F_OFFSET(mom));
+#else
     imp_gauge_force(eps,F_OFFSET(mom));
+#endif
 } /* update_h */

@@ -67,6 +67,10 @@ ifeq ($(strip ${HAVEQIO}),true)
   G_OBJECTS += file_types_milc_usqcd.o io_scidac.o io_scidac_types.o
 endif
 
+ifeq ($(strip ${HAVE_QUDA}),true)
+  G_OBJECTS += gauge_force_imp_gpu.o gauge_action_imp_gpu.o milc_to_quda_utilities.o
+endif
+
 G_KS_OBJECTS = \
 
 ifeq ($(strip ${HAVEQIO}),true)

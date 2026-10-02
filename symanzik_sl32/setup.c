@@ -241,6 +241,7 @@ int status;
     beta[1] = par_buf.beta[1];
 #endif
     u0 = par_buf.u0;
+    phases_in = OFF;
     strcpy(startfile,par_buf.startfile);
     strcpy(savefile,par_buf.savefile);
     strcpy(stringLFN, par_buf.stringLFN);

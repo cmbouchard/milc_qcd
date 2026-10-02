@@ -16,6 +16,9 @@
 
 #define CONTROL
 #include "symanzik_sl32_includes.h"
+#ifdef HAVE_QUDA
+#include "../include/generic_quda.h"
+#endif
 
 int main(int argc, char *argv[]){
 int meascount,todo;
@@ -127,6 +130,10 @@ int key[4];
 	  save_lattice( saveflag, savefile, stringLFN );
 	}
     }
+
+#ifdef HAVE_QUDA
+    finalize_quda();
+#endif
 
     normal_exit(0);
     return 0;
