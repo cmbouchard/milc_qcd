@@ -11,6 +11,9 @@
 #include <string.h>
 
 void make_sublattices();
+#ifdef LAYOUT_HYPER_PRIME
+void check_even_odd_layout();
+#endif
 
 /* Each node has a params structure for passing simulation parameters */
 #include "params.h"
@@ -28,7 +31,15 @@ int prompt;
     setup_layout();
 	/* allocate space for lattice, set up coordinate fields */
     make_lattice();     /* Makes standard lattice */
+#ifndef LAYOUT_HYPER_PRIME
     make_sublattices(); /* Redefines "parity" and sets up "neighsub" */
+#else
+    /* Built with LAYOUT=layout_hyper_prime.o (needed for QUDA, which assumes
+       the standard even/odd site order): keep the EVEN/ODD parity set by
+       make_lattice. The 32-sublattice tables are then not set up, so this
+       build is for HMC only, not for the ORA/QHB targets. */
+    check_even_odd_layout();
+#endif
 	/* set up neighbor pointers and comlink structures */
     make_nn_gathers();
 
@@ -94,6 +105,24 @@ int prompt,status;
     volume=(size_t)nx*ny*nz*nt;
     return(prompt);
 }
+
+#ifdef LAYOUT_HYPER_PRIME
+/* Abort unless the layout puts all EVEN sites first and all ODD sites last,
+   which is the site order QUDA's MILC interface assumes. */
+void check_even_odd_layout(){
+  size_t i, nbad = 0;
+
+  for(i=0;i<sites_on_node;i++){
+    if( lattice[i].parity != (i < even_sites_on_node ? EVEN : ODD) )nbad++;
+  }
+  if(nbad != 0){
+    printf("check_even_odd_layout(%d): %lu of %lu sites out of even/odd order\n",
+	   this_node, (unsigned long)nbad, (unsigned long)sites_on_node);
+    terminate(1);
+  }
+  node0_printf("check_even_odd_layout: even/odd site order OK\n");
+}
+#endif
 
 void make_sublattices(){
   register int i,j;		/* scratch */

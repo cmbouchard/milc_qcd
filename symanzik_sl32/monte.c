@@ -11,6 +11,10 @@
 
 #include "symanzik_sl32_includes.h"
 
+#ifdef LAYOUT_HYPER_PRIME
+#error "ORA/QHB sublattice updates need layout_hyper_sl32; do not build with LAYOUT_HYPER_PRIME"
+#endif
+
 #define Nc 3
 
 void monte(int NumStp)

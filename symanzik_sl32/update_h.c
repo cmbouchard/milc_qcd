@@ -8,6 +8,10 @@
 
 #include "symanzik_sl32_includes.h"
 
+#if defined(USE_GF_GPU) && !defined(LAYOUT_HYPER_PRIME)
+#error "QUDA gauge force needs LAYOUT=layout_hyper_prime.o ADDDEFINES=-DLAYOUT_HYPER_PRIME"
+#endif
+
 void update_h(Real eps) {
     /* gauge field force */
 #ifdef USE_GF_GPU
