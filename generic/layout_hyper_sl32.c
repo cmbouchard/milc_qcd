@@ -354,9 +354,10 @@ void setup_layout(){
 
   /* Non QMP treatment */
   if(nodegeom() != NULL){
-    if(geom != NULL)
+    if(geom != NULL){
       node0_printf("fixed node_geometry\n");
       node0_printf("setup_layout: Preallocated machine geometry overrides request\n");
+    }
     geom = nodegeom();
   }
 
