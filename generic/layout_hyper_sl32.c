@@ -373,11 +373,16 @@ void setup_layout(){
   init_io_node();
 #endif
 
-  /* The same condition must hold for the local extents.  node_index pairs
-     neighbouring hypercube-grid points with i/2, and get_coords assumes the
-     parity of x/2+y/2+z/2+t/2 is unchanged by the node origin; both need
-     every squaresize to be a multiple of 4.  squaresize is the same on
-     every rank, so all ranks take the same branch. */
+  /* Also require every local extent to be a multiple of 4.  If one is
+     2 mod 4, node_index is still a bijection onto the node's sites and the
+     colouring (make_sublattices) uses global coordinates, but get_coords
+     computes the block parity x/2+y/2+z/2+t/2 from local coordinates, which
+     differs from the global one on ranks with an odd node coordinate in that
+     direction: get_coords then returns wrong coordinates for half the sites.
+     get_coords is used by SciDAC/QIO I/O (e.g. save_parallel), the FFTW
+     remap and the QDP layouts, not by the ORA/QHB update with serial I/O, so
+     for that the check is conservative.  squaresize is the same on every
+     rank, so all ranks take the same branch. */
   if(squaresize[XUP]%4 != 0 || squaresize[YUP]%4 != 0 ||
      squaresize[ZUP]%4 != 0 || squaresize[TUP]%4 != 0){
     node0_printf("setup_layout: 32-sublattice layout requires local extents divisible by 4; machine geometry %d %d %d %d gives %d %d %d %d\n",
