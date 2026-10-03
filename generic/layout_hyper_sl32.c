@@ -371,7 +371,23 @@ void setup_layout(){
   /* Initialize I/O node function */
   init_io_node();
 #endif
-  
+
+  /* The same condition must hold for the local extents.  node_index pairs
+     neighbouring hypercube-grid points with i/2, and get_coords assumes the
+     parity of x/2+y/2+z/2+t/2 is unchanged by the node origin; both need
+     every squaresize to be a multiple of 4.  squaresize is the same on
+     every rank, so all ranks take the same branch. */
+  if(squaresize[XUP]%4 != 0 || squaresize[YUP]%4 != 0 ||
+     squaresize[ZUP]%4 != 0 || squaresize[TUP]%4 != 0){
+    node0_printf("setup_layout: 32-sublattice layout requires local extents divisible by 4; machine geometry %d %d %d %d gives %d %d %d %d\n",
+		 nsquares[XUP], nsquares[YUP], nsquares[ZUP], nsquares[TUP],
+		 squaresize[XUP], squaresize[YUP], squaresize[ZUP], squaresize[TUP]);
+    terminate(1);
+  }
+  if(mynode()==0)
+    printf("MACHINE GEOMETRY %d x %d x %d x %d\n",nsquares[XUP],nsquares[YUP],
+	   nsquares[ZUP],nsquares[TUP]);
+
   /* Compute machine coordinates for this node */
   lex_coords(machine_coordinates, 4, nsquares, k);
 
