@@ -379,7 +379,8 @@ void setup_layout(){
      computes the block parity x/2+y/2+z/2+t/2 from local coordinates, which
      differs from the global one on ranks with an odd node coordinate in that
      direction: get_coords then returns wrong coordinates for half the sites.
-     get_coords is used by SciDAC/QIO I/O (e.g. save_parallel), the FFTW
+     get_coords is used by QIO I/O (save/reload_*_scidac, *_ildg; not the
+     native save_parallel, which uses node_number/node_index), the FFTW
      remap and the QDP layouts, not by the ORA/QHB update with serial I/O, so
      for that the check is conservative.  squaresize is the same on every
      rank, so all ranks take the same branch. */
