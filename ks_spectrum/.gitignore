@@ -1,0 +1,11 @@
+# Build products and local test output
+*.o
+ks_spectrum_hisq
+build*.log
+.lastmake*
+localmake
+test/*.test-out*
+test/*.test-tmp
+test/*.sample-tmp
+test/*.test-diff
+quark_action.h
